@@ -1,0 +1,154 @@
+/* 
+In this project, I'm going to create my own table with the top 10 richest people in the world. Afterwhich, I will create a seperate table with more information on what they do nad join the tables to create readable lists.
+
+This project contains at least 2 tables with at least 15 rows total. One table contains a column that relates to a PRIMARY KEY of another table. Queries using JOIN will be used fro this project.
+
+Information is sourced from Forbes Billionaires 2022 (https://www.forbes.com/billionaires/) and a quick Google Search.
+*/
+
+CREATE TABLE billionaires (id INTEGER PRIMARY KEY,
+    name TEXT,
+    age INTEGER,
+    gender TEXT,
+    country TEXT);
+    
+INSERT INTO billionaires (name, age, gender, country) VALUES
+    ("Elon Musk", 50, "male", "United States");
+INSERT INTO billionaires (name, age, gender, country) VALUES   
+    ("Jeff Bezos", 58, "male",  "United States");
+INSERT INTO billionaires (name, age, gender, country) VALUES
+    ("Bernard Anault & Family", 73, "male", "France");
+INSERT INTO billionaires (name, age, gender, country) VALUES
+    ("Bill Gates", 66, "male", "United States");
+INSERT INTO billionaires (name, age, gender, country) VALUES
+    ("Warren Buffet", 91, "male", "United States");
+INSERT INTO billionaires (name, age, gender, country) VALUES
+    ("Larry Page", 49, "male", "United States");
+INSERT INTO billionaires (name, age, gender, country) VALUES
+    ("Sergey Brin", 48, "male", "United States");
+INSERT INTO billionaires (name, age, gender, country) VALUES
+    ("Larry Ellison", 77, "male", "United States");
+INSERT INTO billionaires (name, age, gender, country) VALUES
+    ("Steve Ballmer", 66, "male", "United States");
+INSERT INTO billionaires (name, age, gender, country) VALUES
+    ("Mukesh Ambani", 64, "male", "India");
+INSERT INTO billionaires (name, age, gender, country) VALUES
+    ("Gautam Adani & Family", 59, "male", "India");
+INSERT INTO billionaires (name, age, gender, country) VALUES
+    ("Michael Bloomberg", 80, "male", "United States");
+INSERT INTO billionaires (name, age, gender, country) VALUES
+    ("Carlos Slim Helu & Family", 82, "male", "Mexico");
+INSERT INTO billionaires (name, age, gender, country) VALUES
+    ("Francoise Bettencourt Meyers & Family", 68, "male", "France");
+INSERT INTO billionaires (name, age, gender, country) VALUES
+    ("Mark Zuckerberg", 37, "male", "United States");
+    
+CREATE TABLE wealth (id INTEGER PRIMARY KEY,
+    billionaire_id INTEGER,
+    net_worth_billion INTEGER,
+    source_wealth TEXT,
+    industry_wealth TEXT);
+    
+INSERT INTO wealth (billionaire_id, net_worth_billion, source_wealth, industry_wealth) VALUES
+    (1, 219, "Tesla, SpaceX", "Automotive");
+INSERT INTO wealth (billionaire_id, net_worth_billion, source_wealth, industry_wealth) VALUES
+    (2, 171, "Amazon", "Technology");
+INSERT INTO wealth (billionaire_id, net_worth_billion, source_wealth, industry_wealth) VALUES
+    (3, 158, "LVMH", "Fashion & Retail");
+INSERT INTO wealth (billionaire_id, net_worth_billion, source_wealth, industry_wealth) VALUES
+    (4, 129, "Microsoft", "Technology");
+INSERT INTO wealth (billionaire_id, net_worth_billion, source_wealth, industry_wealth) VALUES
+    (5, 118, "Berkshire Hathaway", "Finance & Investments");
+INSERT INTO wealth (billionaire_id, net_worth_billion, source_wealth, industry_wealth) VALUES
+    (6, 111, "Google", "Technology");
+INSERT INTO wealth (billionaire_id, net_worth_billion, source_wealth, industry_wealth) VALUES
+    (7, 107, "Google", "Technology");
+INSERT INTO wealth (billionaire_id, net_worth_billion, source_wealth, industry_wealth) VALUES
+    (8, 106, "software", "Technology");
+INSERT INTO wealth (billionaire_id, net_worth_billion, source_wealth, industry_wealth) VALUES
+    (9, 91.4, "Microsoft", "Technology");
+INSERT INTO wealth (billionaire_id, net_worth_billion, source_wealth, industry_wealth) VALUES
+    (10, 90.7, "Diversified", "Diversified");
+INSERT INTO wealth (billionaire_id, net_worth_billion, source_wealth, industry_wealth) VALUES
+    (11, 90, "infrastructure, commodities", "Diversified");
+INSERT INTO wealth (billionaire_id, net_worth_billion, source_wealth, industry_wealth) VALUES
+    (12, 82, "Bloomberg LP", "Media & Entertainment");
+INSERT INTO wealth (billionaire_id, net_worth_billion, source_wealth, industry_wealth) VALUES
+    (13, 81.2, "telecom", "Telecom");
+INSERT INTO wealth (billionaire_id, net_worth_billion, source_wealth, industry_wealth) VALUES
+    (14, 74.8, "L'Oréal", "Fashion & Retail");
+INSERT INTO wealth (billionaire_id, net_worth_billion, source_wealth, industry_wealth) VALUES
+    (15, 67.3, "Facebook", "Technology");
+    
+/* Find the networth for each billionaire */
+SELECT billionaires.name, wealth.net_worth_billion
+FROM billionaires
+JOIN wealth
+ON billionaires.id = wealth.billionaire_id;
+
+/* Find the source of wealth for each billionaire */
+SELECT billionaires.name, wealth.source_wealth
+FROM billionaires
+JOIN wealth
+ON billionaires.id = wealth.billionaire_id;
+
+/* Which billionaires have a networth of at least $100 billion form the technology industry? */
+
+SELECT billionaires.name, wealth.net_worth_billion, wealth.industry_wealth
+FROM billionaires
+JOIN wealth
+ON billionaires.id = wealth.billionaire_id
+WHERE net_worth_billion >100 AND industry_wealth = "Technology";
+
+/* A: Jeff Bezos, Bill Gates, Larry Page, Sergey Brin and Larry Ellison */
+
+CREATE TABLE personal (
+    billionaire_id INTEGER,
+    relationship_status TEXT,
+    wife_name TEXT,
+    no_of_children INTEGER,
+    college_name TEXT,
+    hobbies TEXT);
+    
+INSERT INTO personal (billionaire_id, relationship_status, wife_name, no_of_children, college_name, hobbies) VALUES
+    (15, "married", "Priscilla Chan", 2, "Drop out", "Surfing, Playing with VR");
+INSERT INTO personal (billionaire_id, relationship_status, wife_name, no_of_children, college_name, hobbies) VALUES
+    (13, "widowed", "Soumaya Domit Gemayel", 6, "Universidad Nacional Autonoma de Mexico", "sports");
+INSERT INTO personal (billionaire_id, relationship_status, wife_name, no_of_children, college_name, hobbies) VALUES
+    (9, "married", "Connie Snyder", 3, "Harvard University", "golf, watching basketball");
+INSERT INTO personal (billionaire_id, relationship_status, wife_name, no_of_children, college_name, hobbies) VALUES
+    (6, "married", "Lucinda Southworth", 1, "Stanford University", "solar cars, music synthesizers");
+INSERT INTO personal (billionaire_id, relationship_status, wife_name, no_of_children, college_name, hobbies) VALUES    
+    (4, "divorced", "NIL", 3, "Drop out", "Playing bridge, Tennis");
+INSERT INTO personal (billionaire_id, relationship_status, wife_name, no_of_children, college_name, hobbies) VALUES
+    (3, "married", "Hélène Mercier", 5, "Ecole Polytechnique de Paris", "Piano, Tennis");
+INSERT INTO personal (billionaire_id, relationship_status, wife_name, no_of_children, college_name, hobbies) VALUES
+    (11, "married", "Priti Adani", 2, "Drop out", "	Aviation, Reading books");
+INSERT INTO personal (billionaire_id, relationship_status, wife_name, no_of_children, college_name, hobbies) VALUES
+    (12, "attached", "Diana Taylor", 2, "Harvard Business School", "Unknown");
+INSERT INTO personal (billionaire_id, relationship_status, wife_name, no_of_children, college_name, hobbies) VALUES
+    (7, "married", "Anne Wojcicki", 3, "Stanford University", "ultimate frisbee, springboard diving and flying trapeze");
+INSERT INTO personal (billionaire_id, relationship_status, wife_name, no_of_children, college_name, hobbies) VALUES
+    (10, "married", "Nita Ambani", 3, "Drop out", "Reading, Hanging out with friends, Watching movies, Jungle adventure, Listening to old Hindi songs, swimming, doing long-walks");
+INSERT INTO personal (billionaire_id, relationship_status, wife_name, no_of_children, college_name, hobbies) VALUES
+    (2, "divorced", "NIL", 4, "Princeton University", "Submarine exploration");
+INSERT INTO personal (billionaire_id, relationship_status, wife_name, no_of_children, college_name, hobbies) VALUES
+    (5, "remarried", "Astrid Menks", 3, "Columbia University", "Ukelele");
+INSERT INTO personal (billionaire_id, relationship_status, wife_name, no_of_children, college_name, hobbies) VALUES
+    (1, "married", "Taulah Riley", 9, "University of Pennsylvania", "Reading, Playing video games, Travelling");
+INSERT INTO personal (billionaire_id, relationship_status, wife_name, no_of_children, college_name, hobbies) VALUES
+    (8, "attached", "Nikitah Kahn", 4, "Drop out", "yacht-racing");
+INSERT INTO personal (billionaire_id, relationship_status, wife_name, no_of_children, college_name, hobbies) VALUES
+    (14, "married", "Jean-Pierre Meyers", 2, "Unknown", "Reading, Playing piano");
+    
+/* outer join */ 
+SELECT billionaires.name, personal.no_of_children
+FROM billionaires
+LEFT OUTER JOIN personal
+ON billionaires.id = personal.billionaire_id;
+
+/* self join */
+SELECT wealth.net_worth_billion, personal.hobbies
+FROM wealth
+JOIN personal
+ON wealth.billionaire_id = personal.billionaire_id;
